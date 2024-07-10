@@ -1,0 +1,15 @@
+instructors:
+  - name: Samir Bhatt
+    profile_pic: /_images/pp/samir.jpg
+    webpage: https://publichealth.ku.dk/staff/?pure=en/persons/707469
+  - name: Jacob Curran-Sebastian
+    profile_pic: /_images/pp/jacob.jpg
+    webpage: https://publichealth.ku.dk/staff/?pure=en/persons/775117
+  - name: Kaustubh Chakradeo
+    profile_pic: /_images/pp/kaustubh.jpeg
+    webpage: https://publichealth.ku.dk/staff/?pure=en/persons/772793
+  - name: Neil Scheidwasser
+    profile_pic: /_images/pp/neil.jpg
+    webpage: https://neclow.github.io
+
+# teaching_assistants:
