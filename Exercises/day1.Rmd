@@ -1,15 +1,29 @@
 ---
-title: "Day 0: Refresher and intro to dataset"
+title: "Day 1: Data Visualisation Fundamentals"
 output: html_document
 ---
 
+```{r setup, include=FALSE}
+# This chunk of code sets up how the output should be displayed
+# feel free to ignore this!
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
 # Potentially useful libraries
 
-```{r, message = FALSE}
+```{r prelim}
 library(dplyr)
+library(ggplot2)
 library(readxl)
 
-df <- read.csv("data/Malaria_Dataset_DataViz.csv")
+df <- read.csv("../../data/Malaria_Dataset_DataViz.csv")
+
+# Colourblind palette
+palette <- c(
+  "#0173b2", "#de8f05", "#029e73", "#d55e00",
+  "#cc78bc", "#ca9161", "#fbafe4", "#949494", "#ece133",
+  "#56b4e9"
+)
 ```
 
 # Exercise 1: Data wrangling
@@ -22,31 +36,17 @@ Write a function that:
   * the number of NaNs
   * the data type (e.g., ```numeric```)
 
-```{r}
+```{r, exercise1, message = FALSE, warning = FALSE}
 describe <- function(data) {
   # data: A data frame
   # return: Data frame with summary statistics for 'data'
 
-  sub_data <- data %>%
-    select_if(is.numeric) %>%
-    select(-ends_with("_id"))
-  my_summary <- as.data.frame(
-    do.call(
-      rbind, lapply(
-        sub_data, summary
-      )
-    )
-  )
-  my_summary$nunique <- c(sub_data %>% summarise_all(n_distinct))
-  my_summary$type <- lapply(sub_data, class)
-  my_summary$num.na <- lapply(sub_data, function(x) sum(is.na(x)))
-
   # ////////////////////////////////////////////////////////////
   #                      YOUR CODE HERE
   # ////////////////////////////////////////////////////////////
-
-  my_summary
 }
+
+describe(df)
 ```
 
 # Exercise 2: univariate plots
@@ -55,11 +55,30 @@ Something should feel off regarding the column ```mosquito_temperature_suitabili
 
 Let's plot a histogram to check the distribution. Use both ```hist``` and ```geom_histogram```.
 
-Can you spot what could have happened? Fix the column such that the summary looks like this:
+What could have happened? Fix the data from ```mosquito_temperature_suitability``` in a new column called ```mts``` such that the summary looks like this:
 
 ```
   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   0.00   43.67   59.51   58.59   77.14   94.04
 ```
 
+```{r, exercise_2, message = FALSE, warning = FALSE, fig.height = 4, fig.width = 8}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```
 
+# Exercise 3: customising our univariate plot
+
+Let's customise our last plot (this time using the ```mts``` column)!
+Incorporate the following elements:
+  - A vertical, red, dashed, line for the median
+  - Vertical, black, dashed lines for the first and third quartiles
+  - Better data-to-ink-ratio: opt for a white background, dashed grid lines, and remove the top and right borders
+  - Increase the font size of the x and y ticks to 11
+
+```{r, exercise_3}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```

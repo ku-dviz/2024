@@ -76,3 +76,6 @@ gh-pages/
 pkg/
 test/dest
 tmp/*
+
+# html (temporary)
+*.html

@@ -1,0 +1,211 @@
+---
+title: "Day 0: Refresher"
+output: html_document
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_dir = "C:/KU/Teaching/DataVizCourse/dev/html"
+    )
+  })
+---
+
+# Potentially useful libraries
+```{r, message = FALSE}
+library(dplyr)
+library(lubridate)
+```
+
+# Exercise 1: Data wrangling
+For this task, we produced a corrupted version of the classic iris dataset called ```iris_corrupted.csv```.
+
+This dataset describes the characteristics of iris flowers through four features:
+
+* Sepal length
+* Sepal width
+* Petal length
+* Petal width
+
+Obviously, these values have to be strictly positive. However, you will observe that some values are missing/incoherent (completely at random).
+
+Clean the dataset by performing median imputation, i.e., replace the missing values by the feature median.
+
+After replacing the missing values, return the median sepal length of flowers whose petal length is greater than or equal to 5.5 cm.
+
+```{r}
+impute_median <- function(path) {
+  # x: path to a dataset (data/iris_corrupted.csv)
+  # return: float
+
+  df <- read.csv(path)
+
+  df[df <= 0L] <- NA
+
+  # We use the chaining operator from dplyr here
+  df <- df %>% mutate_all(~ ifelse(is.na(.), median(., na.rm = TRUE), .))
+
+  df[which(df$petal_length >= 5.5), ]
+
+  return(median(df[which(df$petal_length >= 5.5), "sepal_length"]))
+}
+```
+
+# Exercise 2: Top-5 occurring words
+Return the top 5 occurring words (i.e., characters delimited by spaces) in descending order of the number of occurrences.
+The text should first be lower-cased, and thus you should only return lowercase words.
+
+```{r}
+top5_words <- function(x) {
+  # x: character
+  # return: list
+
+  # Convert the input string to lowercase and split into words
+  words <- unlist(strsplit(tolower(x), "\\W+"))
+
+  # Create a frequency table of lowercase words
+  word_freq <- table(words)
+
+  # Sort the words by frequency in descending order
+  sorted_words <- names(sort(word_freq, decreasing = TRUE))
+
+  # Extract the top 5 most occurring lowercase words
+  top_words <- head(sorted_words, 5L)
+
+  return(list(top_words))
+}
+```
+
+# Exercise 3: Workdays until Christmas 2023
+For a given day in 2023 with the following format "DD-MM"
+Calculate the number of WORKdays left until 25-12-2023
+
+```{r}
+workdays_until_xmas <- function(day) {
+  # day: character (format: DD-MM)
+  # return: int
+
+  xmas <- as.Date("25-12-2023", format = "%d-%m-%Y") # Xmas date
+
+  # Convert input day to Date format
+  input_date <- as.Date(paste(day, "-2023", sep = ""), format = "%d-%m-%Y")
+
+  # Define a function to check if a given date is a weekend (Saturday or Sunday)
+  is_weekend <- function(date) {
+    # We use the wday function from lubridate here
+    wday(date, week_start = 1) %in% c(6, 7)
+  }
+
+  # Calculate the number of workdays between input_date and xmas
+  workdays <- 0L
+  current_date <- input_date
+  while (current_date < xmas) {
+    if (!is_weekend(current_date)) {
+      workdays <- workdays + 1L
+    }
+    current_date <- current_date + 1L
+  }
+
+  return(workdays)
+}
+```
+
+# Test functions
+DO NOT MODIFY THE CODE BELOW!
+
+```{r, echo=FALSE, results="asis"}
+test <- function(fun, test_inputs, test_outputs) {
+  passed <- 0L
+
+  for (i in seq_along(test_inputs)) {
+    input <- test_inputs[i]
+    output <- test_outputs[i]
+    answer <- fun(input)
+
+    if (identical(answer, output)) {
+      cat(sprintf('<span style="color:green;">Passed test %d</span><br>', i))
+      passed <- passed + 1L
+    } else {
+      # cat('<span style="color:red;">
+      cat(sprintf('<span style="color:red;">Failed test %d</span><br>', i))
+      cat(sprintf("Input: %s<br>", input))
+      cat(sprintf("Answer: %s<br>", answer))
+      cat(sprintf("Expected: %s<br>", output))
+    }
+  }
+  cat(sprintf("<br><b>Tests passed: %s/%s</b><br><br>", passed, length(test_outputs)))
+}
+
+test_impute_median <- function() {
+  test_inputs <- c("../data/iris_corrupted.csv")
+
+  test_outputs <- c(6.9)
+
+  test(impute_median, test_inputs, test_outputs)
+}
+
+test_top5_words <- function() {
+  test_inputs <- c(
+    "a a a a a b b b b c d d d e e e e e e f g g h",
+    "e e e e DDD ddd DdD: ddd ddd aa aA Aa, bb cc cC e e e",
+    "  ...  ",
+    "  '''  ",
+    " /  ",
+    " ",
+    "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer The slings and arrows of outrageous fortune, Or to take arms against a sea of troubles And by opposing end them"
+  )
+
+  test_outputs <- list(
+    c("e", "a", "b", "d", "g"),
+    c("e", "ddd", "aa", "cc", "bb"),
+    c(""),
+    c(""),
+    c(""),
+    c(""),
+    c("to", "the", "and", "be", "of")
+  )
+
+  test(top5_words, test_inputs, test_outputs)
+}
+
+test_workdays_until_xmas <- function() {
+  test_inputs <- c(
+    "17-12",
+    "16-11",
+    "31-10",
+    "19-09",
+    "01-08",
+    "14-07",
+    "21-06",
+    "04-05",
+    "01-04",
+    "14-03",
+    "14-02",
+    "01-01"
+  )
+
+  test_outputs <- c(
+    5L,
+    27L,
+    39L,
+    69L,
+    104L,
+    116L,
+    133L,
+    167L,
+    190L,
+    204L,
+    224L,
+    255L
+  )
+
+  test(workdays_until_xmas, test_inputs, test_outputs)
+}
+
+cat(sprintf("========== Exercise 1: ========== <br>"))
+test_impute_median()
+
+cat(sprintf("========== Exercise 2: ========== <br>"))
+test_top5_words()
+
+cat(sprintf("========== Exercise 3: ========== <br>"))
+test_workdays_until_xmas()
+```
