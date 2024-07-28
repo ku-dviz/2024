@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-# Potentially useful libraries
+# Imports and starter code
 
 ```{r prelim}
 library(dplyr)
@@ -209,11 +209,11 @@ Plot the two figures (fig1 and fig2) side by side. Are the results coherent?
 **Solution:** Yes, we fully expect precipitation with vegetation 😄
 
 ```{r, ex4, message = FALSE, warning = FALSE, fig.height = 4, fig.width = 8}
-fig1 <- ggplot(df, aes(y = enhanced_vegitation_index, x = precipitation)) +
+fig1 <- ggplot(df, aes(y = enhanced_vegetation_index, x = precipitation)) +
   geom_point()
 
 # Linear regression
-mod <- lm(enhanced_vegitation_index ~ precipitation, df)
+mod <- lm(enhanced_vegetation_index ~ precipitation, df)
 
 fig2 <- fig1 +
   # classic theme
@@ -247,7 +247,7 @@ Plot 4 subplots (in a 2 x 2 grid) showing the following:
 3. The distribution of PfPr depending on the area type (rural vs. urban)
 4. Combine elevation, precipitation and city accessibility together
 
-```{r}
+```{r, ex5, message = FALSE, warning = FALSE}
 # Using dplyr in full force here, but there are tons of other ways to do it
 most_observed_country <- df %>%
   count(country, sort = TRUE) %>%
@@ -269,7 +269,10 @@ mocd_pfpr_stats <- mocd %>%
 fig2 <- ggplot(data = mocd_pfpr_stats) +
   geom_point(aes(x = year, y = PfPr_mean)) +
   geom_line(aes(x = year, y = PfPr_mean)) +
-  geom_errorbar(aes(x = year, ymin = PfPr_mean - PfPr_sd, ymax = PfPr_mean + PfPr_sd), width = 0.2) +
+  geom_errorbar(
+    aes(x = year, ymin = PfPr_mean - PfPr_sd, ymax = PfPr_mean + PfPr_sd),
+    width = 0.2
+  ) +
   labs(
     x = "Year",
     y = "PfPr (%)"
@@ -284,7 +287,7 @@ fig3 <- ggplot(mocd %>% filter(rural_urban != ""), aes(x = PfPr, color = rural_u
     x = "PfPr (%)",
   )
 
-fig4 <- ggplot(mocd, aes(x = elevation, y = precipitation, colour = mts)) +
+fig4 <- ggplot(mocd, aes(x = elevation, y = precipitation, colour = mtsi)) +
   geom_point() +
   theme_minimal() +
   scale_colour_distiller(palette = "Purples", direction = 1) +
@@ -303,7 +306,7 @@ Compare the average usage of different types of insecticide-treated bed nets for
 
 Plot the resulting table in a heatmap, with the value of each heatmap cell printed inside.
 
-```{r}
+```{r, ex6, message = FALSE, warning = FALSE}
 ex6 <- df |>
   filter(country %in% c("Nigeria", "Benin", "Chad", "Niger", "Cameroon")) |>
   group_by(country) |>

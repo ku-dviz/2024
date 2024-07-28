@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-# Potentially useful libraries
+# Imports and starter code
 
 ```{r prelim}
 library(dplyr)

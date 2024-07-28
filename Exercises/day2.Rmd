@@ -1,0 +1,136 @@
+---
+title: "Day 2: Maps"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# This chunk of code sets up how the output should be displayed
+# feel free to ignore this!
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Imports and starter code
+
+```{r prelim}
+library(dplyr)
+library(ggplot2)
+# scale bars and north arrows
+library(ggspatial)
+# maps
+library(rnaturalearth)
+# map data
+library(rnaturalearthdata)
+# high-resolution maps
+library(rnaturalearthhires)
+#' simple features' package
+library(sf)
+# interactive thematic maps
+library(tmap)
+
+map_folder <- "../data/maps"
+
+# Rivers
+rivers <- ne_load(
+  scale = 10,
+  type = "rivers_lake_centerlines",
+  destdir = map_folder,
+  returnclass = "sf"
+)
+
+# Lakes
+lakes <- ne_load(
+  scale = 10,
+  type = "lakes",
+  destdir = map_folder,
+  returnclass = "sf"
+)
+
+# Oceans
+oceans <- ne_load(
+  scale = 10,
+  type = "ocean",
+  destdir = map_folder,
+  returnclass = "sf"
+)
+```
+
+# Exercise 1: plot the world
+
+Use the ```rnaturalearth``` and ```ggplot2``` libraries to get the country outlines on a world map
+
+```{r, ex1, message = FALSE, warning = FALSE}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```
+
+# Exercise 2: Kenya plot a Kenya map?
+
+Plot a high-definition map of Kenya supplemented with information on:
+ * Scale
+ * Orientation (North/South)
+ * Coordinates (longitude/latitude)
+
+**Hint:** use ```ggspatial```
+
+```{r, ex2, message = FALSE, warning = FALSE}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```
+
+# Exercise 3: Kenya add more details?
+
+Augment your Kenya plot by adding:
+ * a point for 3 major cities: Nairobi, the capital, as well as Mombasa and Nakuru.
+ * lakes, rivers, and potential surrounding oceans
+
+You might have to do a bit of googling to get the coordinates 😀
+
+**Hint:** use ```sf```, and the data in the starter code!
+
+```{r, ex3, message = FALSE, warning = FALSE}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```
+
+
+# Exercise 4: Kenya add survey data?
+
+Last touch to our map! add the coordinates for surveys in our dataset (```df```) performed in Kenya
+
+```{r, ex4, message = FALSE, warning = FALSE}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```
+
+# Exercise 5: thematic maps with ```tmap```
+
+*Warning!* You might have to delete your current environment before doing this exercise and/or do it on a separate R script.
+
+*Warning!* You might have to delete your current environment before doing this exercise and/or do it on a separate R script.
+
+Let's have a look at interactive thematic maps with ```tmap```!
+
+We provide you with some starter code below. ```World``` is a ```data.frame``` with a special column that contains a geometry for each row, in this case polygons.
+
+```{r, ex5_starter, message = FALSE, warning = FALSE}
+# Interactive mode
+tmap_mode("view")
+
+# Load World Data
+data("World")
+
+# Show the first rows
+head(World)
+```
+
+Try to plot a few economic indicators for African countries. Can we talk about an "economic burden" for malaria in African countries? Is this enough evidence?
+
+```{r, ex5, message = FALSE, warning = FALSE}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```

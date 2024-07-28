@@ -79,3 +79,6 @@ tmp/*
 
 # html (temporary)
 *.html
+
+# temporary image files
+day*_solutions_files/

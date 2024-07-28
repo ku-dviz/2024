@@ -9,7 +9,7 @@ knit: (function(input, ...) {
   })
 ---
 
-# Potentially useful libraries
+# Imports and starter code
 ```{r, message = FALSE}
 library(dplyr)
 library(lubridate)

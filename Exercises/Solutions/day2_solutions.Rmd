@@ -1,0 +1,229 @@
+---
+title: "Day 2: Maps"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# This chunk of code sets up how the output should be displayed
+# feel free to ignore this!
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Imports and starter code
+
+```{r prelim}
+library(dplyr)
+library(ggplot2)
+# scale bars and north arrows
+library(ggspatial)
+# maps
+library(rnaturalearth)
+# map data
+library(rnaturalearthdata)
+# high-resolution maps
+library(rnaturalearthhires)
+#' simple features' package
+library(sf)
+# interactive thematic maps
+library(tmap)
+
+# Our malaria dataset
+df <- read.csv("../../data/Malaria_Dataset_DataViz.csv")
+
+# Where all the map data is located
+map_folder <- "../../data/maps"
+
+# Rivers
+rivers <- ne_load(
+  scale = 10,
+  type = "rivers_lake_centerlines",
+  destdir = map_folder,
+  returnclass = "sf"
+)
+
+# Lakes
+lakes <- ne_load(
+  scale = 10,
+  type = "lakes",
+  destdir = map_folder,
+  returnclass = "sf"
+)
+
+# Oceans
+oceans <- ne_load(
+  scale = 10,
+  type = "ocean",
+  destdir = map_folder,
+  returnclass = "sf"
+)
+```
+
+# Exercise 1: plot the world
+
+Use the ```rnaturalearth``` and ```ggplot2``` libraries to get the country outlines on a world map
+
+```{r, ex1, message = FALSE, warning = FALSE}
+# Use rnaturalearth to get all countries ("ne_countries")
+world_ne <- ne_countries(
+  scale = "medium", # map scale
+  returnclass = "sf" # return a Simple Features dataframe
+)
+
+# We use geom_sf from ggplot to draw simple boundaries and outlines
+ggplot(data = world_ne) +
+  geom_sf() # geom to visualise sf objects
+```
+
+# Exercise 2: Kenya plot a Kenya map?
+
+Plot a high-definition map of Kenya supplemented with information on:
+ * Scale
+ * Orientation (North/South)
+ * Coordinates (longitude/latitude)
+
+**Hint:** use ```ggspatial```
+
+```{r, ex2, message = FALSE, warning = FALSE}
+# Use rnaturalearth to get the country polygon for Kenya
+kenya <- ne_countries(
+  country = "kenya", # country name
+  type = "countries", # country type
+  scale = "large", # requires rnaturalhires
+  returnclass = "sf"
+)
+
+# Basic Kenya map
+kenya_map <- ggplot(data = kenya) +
+  geom_sf()
+
+kenya_map_detailed <- kenya_map +
+  # Add labels
+  labs(
+    x = "Longitude",
+    y = "Latitude",
+    title = "Kenya"
+  ) +
+  # Add the scale on the bottom left (ggspatial)
+  annotation_scale(location = "bl", width_hint = 0.4) +
+  # Add a north arrow on the bottom left (ggspatial)
+  annotation_north_arrow(
+    location = "bl",
+    which_north = "true",
+    pad_x = unit(0.0, "in"),
+    pad_y = unit(0.2, "in"),
+    style = north_arrow_fancy_orienteering
+  )
+
+kenya_map_detailed
+```
+
+# Exercise 3: Kenya add more details?
+
+Augment your Kenya plot by adding:
+ * a point for 3 major cities: Nairobi, the capital, as well as Mombasa and Nakuru.
+ * lakes, rivers, and potential surrounding oceans
+
+You might have to do a bit of googling to get the coordinates 😀
+
+**Hint:** use ```sf``` and the data in the starter code!
+
+```{r, ex3, message = FALSE, warning = FALSE}
+# Kenya data for major cities
+kenya_city_data <- data.frame(
+  city_name = c("Nairobi", "Mombasa", "Nakuru"),
+  lat = c(-1.2921, -4.0435, -0.3031),
+  lon = c(36.8219, 39.6682, 36.0800)
+)
+
+# Bounding box coordinates for Kenya
+kenya_coords <- st_bbox(kenya)
+xmin <- kenya_coords[1]
+xmax <- kenya_coords[3]
+ymin <- kenya_coords[2]
+ymax <- kenya_coords[4]
+
+kenya_map_very_detailed <- kenya_map_detailed +
+  # Add rivers
+  geom_sf(data = rivers, colour = "blue", linewidth = 0.2) +
+  # Add lakes
+  geom_sf(data = lakes, fill = "lightblue") +
+  # Add oceans
+  geom_sf(data = oceans, fill = "lightblue") +
+  # Restict coordinates for rivers/lakes/oceans
+  coord_sf(xlim = c(xmin, xmax), ylim = c(ymin, ymax)) +
+  # Add points for cities (scatter plot)
+  geom_point(
+    data = kenya_city_data,
+    mapping = aes(x = lon, y = lat),
+    colour = "black"
+  ) +
+  # Add annotation
+  geom_text(
+    data = kenya_city_data,
+    mapping = aes(x = lon, y = lat, label = city_name),
+    nudge_y = 0.25,
+    color = "black"
+  )
+
+kenya_map_very_detailed
+```
+
+# Exercise 4: Kenya add survey data?
+
+Last touch to our map! add the coordinates for surveys in our dataset (```df```) performed in Kenya
+
+```{r, ex4, message = FALSE, warning = FALSE}
+kenya_df <- df %>% filter(country == "Kenya")
+
+kenya_map_very_detailed +
+  # Scatter plot with x = longitude, y = latitude
+  geom_point(
+    data = kenya_df,
+    mapping = aes(x = longitude, y = latitude),
+    colour = "red",
+    alpha = 0.2,
+    size = 1
+  )
+```
+
+# Exercise 5: thematic maps with ```tmap```
+
+*Warning!* You might have to delete your current environment before doing this exercise and/or do it on a separate R script.
+
+Let's have a look at interactive thematic maps with ```tmap```!
+
+We provide you with some starter code below. ```World``` is a ```data.frame``` with a special column that contains a geometry for each row, in this case polygons.
+
+```{r, ex5_starter, message = FALSE, warning = FALSE}
+# Interactive mode
+tmap_mode("view")
+
+# Load World Data
+data("World")
+
+# Show the first rows
+head(World)
+```
+
+Try to plot a few economic indicators for African countries. Can we talk about an "economic burden" for malaria in African countries? Is this enough evidence?
+
+```{r, ex5, message = FALSE, warning = FALSE}
+# Select Africa
+africa <- World[World$continent == "Africa", ]
+
+# Rough estimation of average PfPr (parasite rate) in each country
+df %>%
+  group_by(country) %>%
+  summarize(PfPr_mean = mean(PfPr)) %>%
+  arrange(desc(PfPr_mean))
+
+# You can plot several columns at once with tm_facets
+tm_shape(africa) +
+  # Plot life expectancy and GDP per capita
+  tm_polygons(
+    col = c("life_exp", "gdp_cap_est", "economy"),
+    palette = list("Blues", "Blues", "Reds"),
+    id = "name"
+  ) +
+  tm_facets(sync = TRUE, ncol = 3)
+```
