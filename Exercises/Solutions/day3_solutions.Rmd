@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 ```{r prelim}
+library(corrplot)
 library(gridExtra)
 library(dplyr)
 library(ggplot2)
@@ -38,8 +39,8 @@ palette <- c(
 
 We have selected for you 13 columns of interest, and 3 different African countries from an economic, geographic, and demographic perspective: Sudan, Zambia, and Nigeria.
 
-1. Run a PCA on the subset of interest. Do not forget to scale and center the data!
-2. Run a scree plot. How many components are worth retaining?
+Make a correlation matrix using the ```cor``` function from the ```stats``` package, then plot it
+using ```corrplot``` from the ```corrplot``` package.
 
 ```{r ex1}
 sub_df <- df %>% filter(df$country %in% countries)
@@ -47,6 +48,28 @@ sub_df <- df %>% filter(df$country %in% countries)
 sub_df_cont <- sub_df %>%
   select(any_of(cols_of_interest))
 
+# Correlation matrix
+corr_matrix <- cor(sub_df_cont)
+
+# Correlation matrix plot
+corrplot(
+  corr_matrix,
+  # Only plot the lower triangular
+  type = "lower",
+  # Visualisation method: show ellipses
+  # eccentricity scaled to the correlation value
+  method = "ellipse",
+  # Sort by angular order of the eigenvectors
+  order = "AOE",
+  # Rotate the text labels
+  tl.srt = 45
+)
+```
+
+1. Run a PCA on the subset of interest. Do not forget to scale and center the data!
+2. Run a scree plot. How many components are worth retaining?
+
+```{r ex2}
 sub_df_cont_pca <- prcomp(sub_df_cont, scale = TRUE, center = TRUE)
 
 # Screeplot
@@ -59,7 +82,7 @@ Run a biplot to represent the information contained in the first two components.
 2. Colour the biplot points by country: do the surveys cluster well by country? do the clusters make sense?
 3. Colour the biplot points by PfPr:
 
-```{r ex2}
+```{r ex3}
 fig1 <- ggbiplot(
   sub_df_cont_pca,
   # arrows: change colour and increase size
@@ -102,7 +125,7 @@ Perform 4 UMAP plots with 4 different values for ```n_neighbors```: 2, 20, 200, 
 
 What do you notice? How do these visualisations compare to your PCA plot?
 
-```{r ex3}
+```{r ex4}
 neigh_plots <- list()
 
 neigh_numbs <- c(2, 20, 200, 2000)
