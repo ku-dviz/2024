@@ -209,7 +209,7 @@ Try to plot a few economic indicators for African countries. Can we talk about a
 
 ```{r, ex5, message = FALSE, warning = FALSE}
 # Select Africa
-africa <- World[World$continent == "Africa", ]
+africa <- World %>% filter(continent == "Africa")
 
 # Rough estimation of average PfPr (parasite rate) in each country
 df %>%

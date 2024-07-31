@@ -39,9 +39,6 @@ palette <- c(
 
 We have selected for you 13 columns of interest, and 3 different African countries from an economic, geographic, and demographic perspective: Sudan, Zambia, and Nigeria.
 
-Make a correlation matrix using the ```cor``` function from the ```stats``` package, then plot it
-using ```corrplot``` from the ```corrplot``` package.
-
 ```{r ex1}
 sub_df <- df %>% filter(df$country %in% countries)
 
@@ -79,8 +76,8 @@ screeplot(sub_df_cont_pca, type = "lines")
 Run a biplot to represent the information contained in the first two components.
 
 1. Observe the arrows: what do the principle components capture?
-2. Colour the biplot points by country: do the surveys cluster well by country? do the clusters make sense?
-3. Colour the biplot points by PfPr:
+2. Colour the biplot points by country in a first plot: do the surveys cluster well by country? do the clusters make sense?
+3. Colour the biplot points by PfPr in a second plot
 
 ```{r ex3}
 fig1 <- ggbiplot(

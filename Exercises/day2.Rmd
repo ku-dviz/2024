@@ -9,6 +9,29 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
+```{css, echo=FALSE}
+/* This chunk allows to set up hints */
+.hint {
+  visibility: hidden;
+}
+
+.hint::before {
+  visibility: visible;
+  content: "Hint";
+  font-weight: bold
+}
+
+.hint:hover {
+  visibility: visible;
+  font-style: italic;
+  font-weight: bold
+}
+
+.hint:hover::before {
+  display: none;
+}
+```
+
 # Imports and starter code
 
 ```{r prelim}
@@ -58,6 +81,11 @@ oceans <- ne_load(
 
 Use the ```rnaturalearth``` and ```ggplot2``` libraries to get the country outlines on a world map
 
+<p class="hint">
+Getting country outlines: ```ne_contries``` (rnaturalearth)
+Drawing country outlines: ```geom_sf``` (ggplot2)
+</p>
+
 ```{r, ex1, message = FALSE, warning = FALSE}
 # ////////////////////////////////////////////////////////////
 #                      YOUR CODE HERE
@@ -71,7 +99,12 @@ Plot a high-definition map of Kenya supplemented with information on:
  * Orientation (North/South)
  * Coordinates (longitude/latitude)
 
-**Hint:** use ```ggspatial```
+<p class="hint">
+Getting Kenya outliners: ```ne_countries``` (rnaturalearth)
+Adding scale: ```annotation_scale``` (ggspatial)
+Adding North arrow: ```annotation_north_arrow``` (ggspatial)
+Adding coordinates: Simply label the axes 😀
+</p>
 
 ```{r, ex2, message = FALSE, warning = FALSE}
 # ////////////////////////////////////////////////////////////
@@ -87,7 +120,12 @@ Augment your Kenya plot by adding:
 
 You might have to do a bit of googling to get the coordinates 😀
 
-**Hint:** use ```sf```, and the data in the starter code!
+<p class="hint">
+Plotting geographical features: ```geom_sf``` (ggplot2)
+You will need ```st_bbox``` (sf) to get the bounding coordinates of Kenya, such that you only plot the relevant lakes/rivers/oceans with ```coord_sf``` (ggplot2)
+Plotting cities: like a scatter plot
+Adding city names: ```geom_text``` (ggplot2)
+</p>
 
 ```{r, ex3, message = FALSE, warning = FALSE}
 # ////////////////////////////////////////////////////////////
@@ -99,6 +137,10 @@ You might have to do a bit of googling to get the coordinates 😀
 # Exercise 4: Kenya add survey data?
 
 Last touch to our map! add the coordinates for surveys in our dataset (```df```) performed in Kenya
+
+<p class="hint">
+Adding coordinates: like a scatter plot
+</p>
 
 ```{r, ex4, message = FALSE, warning = FALSE}
 # ////////////////////////////////////////////////////////////
@@ -128,6 +170,13 @@ head(World)
 ```
 
 Try to plot a few economic indicators for African countries. Can we talk about an "economic burden" for malaria in African countries? Is this enough evidence?
+
+<p class="hint">
+Selecting African data: ```filter``` (dplyr)
+Equivalent to ```ggplot``` (ggplot2): ```tm_shape``` (tmap)
+Colouring countries by an indicator: ```tm_polygons(c("indicator"), id = "name")``` (tmap)
+Subplots: ```tm_facets``` (tmap)
+</p>
 
 ```{r, ex5, message = FALSE, warning = FALSE}
 # ////////////////////////////////////////////////////////////
