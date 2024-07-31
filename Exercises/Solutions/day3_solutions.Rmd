@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 ```{r prelim}
 library(corrplot)
+library(ggbiplot)
 library(gridExtra)
 library(dplyr)
 library(ggplot2)
@@ -35,6 +36,8 @@ palette <- c(
   "#cc78bc", "#ca9161", "#fbafe4", "#949494", "#ece133",
   "#56b4e9"
 )
+
+set.seed(42)
 ```
 
 We have selected for you 13 columns of interest, and 3 different African countries from an economic, geographic, and demographic perspective: Sudan, Zambia, and Nigeria.
@@ -79,7 +82,7 @@ Run a biplot to represent the information contained in the first two components.
 2. Colour the biplot points by country in a first plot: do the surveys cluster well by country? do the clusters make sense?
 3. Colour the biplot points by PfPr in a second plot
 
-```{r ex3}
+```{r ex3, fig.height = 6, fig.width = 12}
 fig1 <- ggbiplot(
   sub_df_cont_pca,
   # arrows: change colour and increase size
@@ -116,9 +119,9 @@ fig2 <- ggbiplot(
 grid.arrange(fig1, fig2, ncol = 2)
 ```
 
-Let's now turn to UMAP using the package ```uwot```.
+Let's now turn to UMAP.
 
-Perform 4 UMAP plots with 4 different values for ```n_neighbors```: 2, 20, 200, 2000 (it might take some time (~ 5 min)).
+Perform 4 UMAP plots with 4 different values for ```n_neighbors```: 2, 20, 200, 2000 (it should take ~ 5 min).
 
 What do you notice? How do these visualisations compare to your PCA plot?
 
@@ -131,7 +134,8 @@ for (i in seq_along(neigh_numbs)) {
   print(paste("Testing n_neighbors = ", neigh_numbs[[i]]), sep = "")
   sub_df_cont_umap <- uwot::umap(
     sub_df_cont,
-    n_neighbors = neigh_numbs[[i]]
+    n_neighbors = neigh_numbs[[i]],
+    fast_sgd = TRUE
   )
 
   neigh_plots[[i]] <- ggplot(

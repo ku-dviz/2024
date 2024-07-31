@@ -36,6 +36,8 @@ palette <- c(
   "#cc78bc", "#ca9161", "#fbafe4", "#949494", "#ece133",
   "#56b4e9"
 )
+
+set.seed(42)
 ```
 
 We have selected for you 13 columns of interest, and 3 different African countries from an economic, geographic, and demographic perspective: Sudan, Zambia, and Nigeria.
@@ -83,14 +85,15 @@ Run a biplot to represent the information contained in the first two components.
 # ////////////////////////////////////////////////////////////
 ```
 
-Let's now turn to UMAP using the package ```uwot```.
+Let's now turn to UMAP.
 
-Perform 4 UMAP plots with 4 different values for ```n_neighbors```: 2, 20, 200, 2000 (it might take some time (~ 5 min)).
+Perform 4 UMAP plots with 4 different values for ```n_neighbors```: 2, 20, 200, 2000 (it should take ~ 5 min).
 
 What do you notice? How do these visualisations compare to your PCA plot?
 
+
 <p class="hint">
-  UMAP: ```umap``` (uwot)
+  UMAP: ```umap``` (uwot) with ```fast_sgd = TRUE```
 </p>
 
 ```{r ex4}
