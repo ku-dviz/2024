@@ -8,6 +8,8 @@ css: styles.css
 # This chunk of code sets up how the output should be displayed
 # feel free to ignore this!
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+source("config.R")
 ```
 
 # Imports and starter code
@@ -19,13 +21,6 @@ library(ggplot2)
 library(readxl)
 
 df <- read.csv("../data/Malaria_Dataset_DataViz.csv")
-
-# Colourblind palette
-palette <- c(
-  "#0173b2", "#de8f05", "#029e73", "#d55e00",
-  "#cc78bc", "#ca9161", "#fbafe4", "#949494", "#ece133",
-  "#56b4e9"
-)
 ```
 
 # Exercise 1: Data wrangling

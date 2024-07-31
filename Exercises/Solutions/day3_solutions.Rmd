@@ -7,6 +7,8 @@ output: html_document
 # This chunk of code sets up how the output should be displayed
 # feel free to ignore this!
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+source("../../config.R")
 ```
 
 ```{r prelim}
@@ -30,12 +32,6 @@ cols_of_interest <- c(
 )
 
 countries <- c("Sudan", "Zambia", "Nigeria")
-
-palette <- c(
-  "#0173b2", "#de8f05", "#029e73", "#d55e00",
-  "#cc78bc", "#ca9161", "#fbafe4", "#949494", "#ece133",
-  "#56b4e9"
-)
 
 set.seed(42)
 ```
@@ -97,7 +93,7 @@ fig1 <- ggbiplot(
   ellipse.fill = FALSE
 ) +
   # change country colour
-  scale_color_manual(name = "country", values = palette[seq_along(countries)]) +
+  scale_color_manual(name = "country", values = colourblind[seq_along(countries)]) +
   # minimal theme
   theme_minimal()
 
@@ -143,7 +139,7 @@ for (i in seq_along(neigh_numbs)) {
     aes(y = V2, x = V1, colour = sub_df$country)
   ) +
     geom_point() +
-    scale_color_manual(name = "country", values = palette[seq_along(countries)])
+    scale_color_manual(name = "country", values = colourblind[seq_along(countries)])
 }
 
 do.call(grid.arrange, neigh_plots)

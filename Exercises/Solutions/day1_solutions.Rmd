@@ -7,6 +7,8 @@ output: html_document
 # This chunk of code sets up how the output should be displayed
 # feel free to ignore this!
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+source("../config.R")
 ```
 
 # Imports and starter code
@@ -16,15 +18,9 @@ library(dplyr)
 library(gridExtra)
 library(ggplot2)
 library(readxl)
+library(tidyr)
 
 df <- read.csv("../../data/Malaria_Dataset_DataViz.csv")
-
-# Colourblind palette
-palette <- c(
-  "#0173b2", "#de8f05", "#029e73", "#d55e00",
-  "#cc78bc", "#ca9161", "#fbafe4", "#949494", "#ece133",
-  "#56b4e9"
-)
 ```
 
 # Exercise 1: Data wrangling
@@ -166,7 +162,7 @@ Incorporate the following elements:
 mtsi_quantiles <- quantile(df$mtsi, probs = c(0.25, 0.5, 0.75))
 
 ggplot(df, aes(mtsi)) +
-  geom_histogram(fill = palette[1]) +
+  geom_histogram(fill = colourblind[1]) +
   labs(x = "Mosquito temperature stability") +
   # choose a minimal theme (no grey background)
   theme_minimal() +
@@ -245,7 +241,7 @@ Plot 4 subplots (in a 2 x 2 grid) showing the following:
 3. The distribution of PfPr depending on the area type (rural vs. urban)
 4. Combine elevation, precipitation and city accessibility together
 
-```{r, ex5, message = FALSE, warning = FALSE}
+```{r, ex5, message = FALSE, warning = FALSE, fig.height = 8, fig.width = 8}
 # Using dplyr in full force here, but there are tons of other ways to do it
 most_observed_country <- df %>%
   count(country, sort = TRUE) %>%
@@ -257,7 +253,7 @@ mocd <- df %>% filter(country == most_observed_country)
 fig1 <- ggplot(mocd, aes(x = year, fill = method)) +
   geom_bar() +
   theme_minimal() +
-  scale_fill_manual(values = palette)
+  scale_fill_manual(values = colourblind)
 
 # Get mean and SD of PfPr grouped by year
 mocd_pfpr_stats <- mocd %>%
