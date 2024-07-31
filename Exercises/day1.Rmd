@@ -69,14 +69,13 @@ Let's plot a histogram to check the distribution. Use both ```hist``` and ```geo
 
 What could have happened? Fix the data from ```mosquito_temperature_suitability_index``` in a new column called ```mtsi``` such that the summary looks like this:
 
-Hint: read the metadata!
-
 ```
   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   0.00   43.67   59.51   58.59   77.14   94.04
 ```
 
 <p class="hint">
+  Read the metadata (Malaria_Dataset_DataViz.xlsx)!
   Histograms: ```hist``` (base graphics), ```geom_histogram``` (ggplot2)
 </p>
 
