@@ -1,0 +1,19 @@
+.hint {
+    visibility: hidden;
+}
+
+.hint::before {
+    visibility: visible;
+    content: "Hint";
+    font-weight: bold
+}
+
+.hint:hover {
+    visibility: visible;
+    font-style: italic;
+    font-weight: bold
+}
+
+.hint:hover::before {
+    display: none;
+}

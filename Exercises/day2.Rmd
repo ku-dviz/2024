@@ -1,35 +1,13 @@
 ---
 title: "Day 2: Maps"
 output: html_document
+css: styles.css
 ---
 
 ```{r setup, include=FALSE}
 # This chunk of code sets up how the output should be displayed
 # feel free to ignore this!
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
-```
-
-```{css, echo=FALSE}
-/* This chunk allows to set up hints */
-.hint {
-  visibility: hidden;
-}
-
-.hint::before {
-  visibility: visible;
-  content: "Hint";
-  font-weight: bold
-}
-
-.hint:hover {
-  visibility: visible;
-  font-style: italic;
-  font-weight: bold
-}
-
-.hint:hover::before {
-  display: none;
-}
 ```
 
 # Imports and starter code
