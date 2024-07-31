@@ -9,9 +9,9 @@ Teachers: Kaustubh Chakradeo, Jacob Curran-Sebastian, Neil Scheidwasser, Samir B
 ### Install R
 
 * Download:
-  * Windows: <https://cran.r-project.org/bin/windows/base/R-4.3.1-win.exe>
-  * Mac (arm64; M1/M2 Macs): <https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.3.1-arm64.pkg>
-  * Mac (x86): <https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.3.1-x86_64.pkg>
+  * Windows: <https://cran.r-project.org/bin/windows/base/R-4.4.0-win.exe>
+  * Mac (arm64; M1/M2 Macs): <https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.4.0-arm64.pkg>
+  * Mac (x86): <https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.4.0-x86_64.pkg>
   * Linux (Ubuntu): follow the instrcctions at <https://cran.r-project.org/bin/linux/ubuntu/>
 * Follow the steps after running the executable file to install
 * Check: open a terminal (in Windows, Command Prompt) and type ```R``` --> it should open an R console
@@ -31,13 +31,6 @@ Teachers: Kaustubh Chakradeo, Jacob Curran-Sebastian, Neil Scheidwasser, Samir B
 install.packages('rmarkdown')
 ```
 
-* Optional: use tinytex to generate PDFs using LaTeX
-
-```R
-install.packages('tinytex')
-tinytex::install_tinytex()
-```
-
 ### Data analysis and visualization packages
 
 A basic setup with a comprehensive set of packages for scientific computing and data visualisation can be installed via the ```tidyverse``` package:
@@ -46,28 +39,26 @@ A basic setup with a comprehensive set of packages for scientific computing and 
 install.packages('tidyverse')
 ```
 
-If you prefer to have a minimal setup, you can install the following packages that we will use in this course.
+If you prefer to have a more minimal setup, you can install the following packages that are necessary for the exercises:
+
 Basic data analysis:
 
 ```R
-install.packages('dplyr')
-install.packages('Hmisc')
-```
-
-For static visualisation:
-
-```R
-install.packages('ggplot2')
-install.packages('ggmap') # Maps
-install.packages('daggity') # Networks
-install.packages('pheatmap') # Heatmaps
-install.packages('gridExtra') # Subplots
-install.packages('RColorBrewer') # More colours
-```
-
-For interactive visualisation:
-
-```R
-install.packages('plotly')
-install.packages('shiny')
+install.packages(
+  c(
+    "dplyr", # Data manipulation
+    "lubridate" # Date manipulation
+    "gridExtra", # Grid graphics and subplots
+    "ggplot2", # Graphics
+    "readxl", # Excel I/O
+    "ggspatial" # Spatial data framework for ggplot2
+    "rnaturalearth", # Earth map data manipulation
+    "rnaturalearhdata", # Earth vector map data
+    "rnaturalearthhires", # High-resolution Earth vector map data
+    "sf", # Simple Features manipulation (geographic data)
+    "tmap", # (Interactive) thematic maps
+    "corrplot", # Correlation matrix plots
+    "uwot", # UMAP dimensionality reduction
+  )
+)
 ```
