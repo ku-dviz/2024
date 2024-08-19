@@ -52,6 +52,7 @@ install.packages(
     "ggplot2", # Graphics
     "readxl", # Excel I/O
     "ggspatial" # Spatial data framework for ggplot2
+    "plotly", # Interactive plots
     "rnaturalearth", # Earth map data manipulation
     "rnaturalearhdata", # Earth vector map data
     "rnaturalearthhires", # High-resolution Earth vector map data

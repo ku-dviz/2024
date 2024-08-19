@@ -1,12 +1,6 @@
 ---
 title: "Day 0: Refresher"
 output: html_document
-knit: (function(input, ...) {
-    rmarkdown::render(
-      input,
-      output_dir = "C:/KU/Teaching/DataVizCourse/dev/html"
-    )
-  })
 ---
 
 # Imports and starter code

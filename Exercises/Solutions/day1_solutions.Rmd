@@ -161,7 +161,7 @@ Incorporate the following elements:
 ```{r, ex3}
 mtsi_quantiles <- quantile(df$mtsi, probs = c(0.25, 0.5, 0.75))
 
-ggplot(df, aes(mtsi)) +
+fig <- ggplot(df, aes(mtsi)) +
   geom_histogram(fill = colourblind[1]) +
   labs(x = "Mosquito temperature stability") +
   # choose a minimal theme (no grey background)
@@ -250,21 +250,32 @@ most_observed_country <- df %>%
 
 mocd <- df %>% filter(country == most_observed_country)
 
-fig1 <- ggplot(mocd, aes(x = year, fill = method)) +
-  geom_bar() +
-  theme_minimal() +
-  scale_fill_manual(values = colourblind)
-
 # Get mean and SD of PfPr grouped by year
 mocd_pfpr_stats <- mocd %>%
   group_by(year) %>%
   summarise(PfPr_mean = mean(PfPr), PfPr_sd = sd(PfPr))
 
+fig1 <- ggplot(mocd, aes(x = year, fill = method)) +
+  geom_bar() +
+  theme_minimal() +
+  scale_fill_manual(values = colourblind) +
+  labs(
+    x = "Year",
+    y = "# Surveys"
+  )
+
 fig2 <- ggplot(data = mocd_pfpr_stats) +
+  # Scatter plot
   geom_point(aes(x = year, y = PfPr_mean)) +
+  # Line between each points
   geom_line(aes(x = year, y = PfPr_mean)) +
+  # Error bar [y_mean - y_sd, y_mean + y_sd]
   geom_errorbar(
-    aes(x = year, ymin = PfPr_mean - PfPr_sd, ymax = PfPr_mean + PfPr_sd),
+    aes(
+      x = year,
+      ymin = PfPr_mean - PfPr_sd,
+      ymax = PfPr_mean + PfPr_sd
+    ),
     width = 0.2
   ) +
   labs(
@@ -273,7 +284,12 @@ fig2 <- ggplot(data = mocd_pfpr_stats) +
   ) +
   theme_minimal()
 
-fig3 <- ggplot(mocd %>% filter(rural_urban != ""), aes(x = PfPr, color = rural_urban)) +
+fig3 <- ggplot(
+  # Filter out empty values
+  mocd %>% filter(rural_urban != ""),
+  aes(x = PfPr, color = rural_urban)
+) +
+  # Use after_stat to scale the data
   geom_density(aes(y = after_stat(scaled))) +
   theme_minimal() +
   labs(
@@ -289,7 +305,6 @@ fig4 <- ggplot(mocd, aes(x = elevation, y = precipitation, colour = mtsi)) +
     y = "Precipitation [mm]",
     x = "Elevation [m]",
   )
-
 
 grid.arrange(fig1, fig2, fig3, fig4, ncol = 2L)
 ```

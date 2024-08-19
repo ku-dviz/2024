@@ -1,0 +1,279 @@
+---
+title: "Day 4: Interactive visualisation"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# This chunk of code sets up how the output should be displayed
+# feel free to ignore this!
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+source("../config.R")
+```
+
+# Imports and starter code
+
+```{r prelim}
+library(ggplot2)
+library(plotly)
+library(shiny)
+
+df <- read.csv("../../data/Malaria_Dataset_DataViz.csv")
+
+df$mtsi <- df$mosquito_temperature_suitability_index / 1000
+```
+
+# Exercise 1: ggplot to plotly
+
+Take your plot from Day 1/Exercise 4 (```fig2```) and make it interactive with ```plotly```!
+
+```{r, ex1, message = FALSE, warning = FALSE}
+fig1 <- ggplot(df, aes(y = enhanced_vegetation_index, x = precipitation)) +
+  geom_point()
+
+# Linear regression
+mod <- lm(enhanced_vegetation_index ~ precipitation, df)
+
+fig2 <- fig1 +
+  # classic theme
+  theme_classic() +
+  # change x-axis, y-axis and title format
+  theme(
+    axis.text.x = element_text(size = 11L),
+    axis.text.y = element_text(size = 11L),
+    plot.title = element_text(hjust = 0.5) # centre the title
+  ) +
+  # Add the regression line
+  geom_smooth(method = lm, color = "darkred") +
+  # Change x-axis, y-axis and title labels
+  labs(
+    x = "Precipitation [mm]",
+    y = "Vegetation index [A.U.]",
+    title = paste("R^2:", format(summary(mod)$r.squared, digits = 2L))
+  )
+
+plotly_fig <- ggplotly(fig2)
+
+plotly_fig
+```
+
+# Exercise 2: build a Shiny app
+
+*It is recommended to use RStudio and R (not RMarkdown) for this exercise.*
+
+Let's start building an interactive app to compare countries using the 4-panel plot from Day 1/Exercise 5.
+
+The app should incorporate the following elements:
+* Input: a country from the Malaria dataset
+* Output: an interactive 4-panel plot similar to Day 1/Exercise 5
+
+This exercise will be divided into 3 parts: UI side (part 1), processing the input on the server side (part 2), and finally rendering an interactive a plt (part 3)
+
+Rest assured, you'll find some starter code in a separate script called ```day4_app.R```!
+
+## Part 1: UI side
+
+Our UI should consist of a ```fluidPage``` with:
+* A title
+* A sidebar layout with two panels:
+  * A sidebar panel where a user can select a country from ```unique_countries``` (e.g., like a drop-down menu)
+  * A main panel containing a ```plotlyOutput```
+
+<p class="hint">
+  Title: ```titlePanel``` <br>
+  Side bar layout: ```sidebarLayout``` <br>
+  Side bar panel: ```sidebarPanel``` <br>
+  Drop-down menu: ```selectInput``` <br>
+  main panel: ```mainPanel``` <br>
+</p>
+
+```{r, ex2.1, message = FALSE, warning = FALSE}
+ui <- fluidPage(
+
+  # Give the page a title
+  titlePanel("Exploring malaria survey data from African countries"),
+
+  # Generate a row with a sidebar
+  sidebarLayout(
+    # Define the sidebar with one input
+    sidebarPanel(
+      # Selection input
+      selectInput("country", "Country:",
+        choices = unique_countries
+      ),
+      hr(),
+      helpText("Select a country using the drop-down menu.")
+    ),
+    mainPanel(
+      plotlyOutput("plot")
+    )
+  )
+)
+```
+
+## Part 2: Server side - processing inputs
+
+Our server should first incorporate the input country by filtering ```df``` such that only the rows from that country are retained.
+
+We are also interested in getting the mean PfPR and its SD (in an object called ```sub_df_pfpr_stats```), grouped by year (like in day1).
+
+To check your code, replace ```plot_empty``` by:
+```{r ex2.2 helper, eval = FALSE, echo = TRUE}
+first_year <- # CODE HERE
+
+  first_year_mean_pfpr <- # CODE HERE
+
+  validate(
+    need(
+      FALSE,
+      paste0(
+        country(),
+        ". First sample obtained in ",
+        first_year,
+        ". Mean PfPr: ",
+        first_year_mean_pfpr
+      )
+    )
+  )
+```
+
+When running the app, you should get the following for Angola:
+
+*Angola. First sample obtained in 2005. Mean PfPr: 0.669089607*
+
+<p class="hint">
+  Remember to make everything that is susceptible to change (such as the country and country data) as ```reactive```! <br>
+</p>
+
+```{r, ex2.2, message = FALSE, warning = FALSE}
+server <- function(input, output) {
+  country <- reactive({
+    input$country
+  })
+
+  sub_df <- reactive({
+    df |> filter(country == country())
+  })
+
+  # Get mean and SD of PfPr grouped by year
+  sub_df_pfpr_stats <- reactive({
+    sub_df() %>%
+      group_by(year) %>%
+      summarise(PfPr_mean = mean(PfPr), PfPr_sd = sd(PfPr))
+  })
+
+  first_year <- sub_df_pfpr_stats()[1, 1]
+  first_year_mean_pfpr <- sub_df_pfpr_stats()[1, 2]
+
+  output$plot <- renderPlotly({
+    validate(
+      need(
+        FALSE,
+        paste0(
+          country(),
+          ". First sample obtained in ",
+          first_year,
+          ". Mean PfPr: ",
+          first_year_mean_pfpr
+        )
+      )
+    )
+  })
+}
+```
+
+## Part 3: Server side - visualization
+
+Our UI is ready, our data processing is ready, now onto the plots!
+
+Replace the validate snippet by a ```subplot``` from the ```plotly``` library, incorporating the 4 panels (over 2 rows) from Day 1/Exercise 5.
+
+<p class="hint">
+  Remember that the data is ```reactive``` <br>
+  Use ggplotly to make the plots interactive <br>
+  Use ```titleX = TRUE``` and ```titleY = TRUE``` for <br>
+</p>
+
+```{r, ex2.3, message = FALSE, warning = FALSE}
+server <- function(input, output) {
+  country <- reactive({
+    input$country
+  })
+
+  sub_df <- reactive({
+    df |> filter(country == country())
+  })
+
+  # Get mean and SD of PfPr grouped by year
+  sub_df_pfpr_stats <- reactive({
+    sub_df() %>%
+      group_by(year) %>%
+      summarise(PfPr_mean = mean(PfPr), PfPr_sd = sd(PfPr))
+  })
+
+  output$plot <- renderPlotly({
+    fig1 <- ggplot(sub_df(), aes(x = year, fill = method)) +
+      geom_bar() +
+      theme_minimal() +
+      scale_fill_manual(values = colourblind) +
+      labs(
+        x = "Year",
+        y = "# Surveys"
+      )
+
+    fig2 <- ggplot(data = sub_df_pfpr_stats()) +
+      geom_point(aes(x = year, y = PfPr_mean)) +
+      geom_line(aes(x = year, y = PfPr_mean)) +
+      geom_errorbar(
+        aes(x = year, ymin = PfPr_mean - PfPr_sd, ymax = PfPr_mean + PfPr_sd),
+        width = 0.2
+      ) +
+      labs(
+        x = "Year",
+        y = "PfPr (%)"
+      ) +
+      theme_minimal()
+
+    fig3 <- ggplot(sub_df() %>% filter(rural_urban != ""), aes(x = PfPr, color = rural_urban)) +
+      geom_density(aes(y = after_stat(scaled))) +
+      theme_minimal() +
+      labs(
+        y = "Density",
+        x = "PfPr (%)",
+      )
+
+    fig4 <- ggplot(sub_df(), aes(x = elevation, y = precipitation, colour = mtsi)) +
+      geom_point() +
+      theme_minimal() +
+      scale_colour_distiller(palette = "Purples", direction = 1) +
+      labs(
+        y = "Precipitation [mm]",
+        x = "Elevation [m]",
+      )
+
+    m <- list(
+      l = 50L,
+      r = 50L,
+      b = 100L,
+      t = 100L,
+      pad = 4L
+    )
+
+    size <- 800L
+
+    plotly_fig <- subplot(
+      ggplotly(fig1, width = size, height = size),
+      ggplotly(fig2, width = size, height = size),
+      ggplotly(fig3, width = size, height = size),
+      ggplotly(fig4, width = size, height = size),
+      nrows = 2,
+      titleX = TRUE,
+      titleY = TRUE,
+      margin = 0.1
+    )
+
+    plotly_fig |> layout(margin = m)
+  })
+}
+```
+

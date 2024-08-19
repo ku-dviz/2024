@@ -1,0 +1,129 @@
+---
+title: "Day 4: Interactive visualisation"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# This chunk of code sets up how the output should be displayed
+# feel free to ignore this!
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+source("../config.R")
+```
+
+# Imports and starter code
+
+```{r prelim}
+library(dplyr)
+library(ggplot2)
+library(plotly)
+library(shiny)
+
+df <- read.csv("../../data/Malaria_Dataset_DataViz.csv")
+
+df$mtsi <- df$mosquito_temperature_suitability_index / 1000
+```
+
+# Exercise 1: ggplot to plotly
+
+Take your plot from Day 1/Exercise 4 (```fig2```) and make it interactive with ```plotly```!
+
+```{r, ex1, message = FALSE, warning = FALSE}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```
+
+# Exercise 2: build a Shiny app
+
+*It is recommended to use RStudio and R (not RMarkdown) for this exercise.*
+
+Let's start building an interactive app to compare countries using the 4-panel plot from Day 1/Exercise 5.
+
+The app should incorporate the following elements:
+* Input: a country from the Malaria dataset
+* Output: an interactive 4-panel plot similar to Day 1/Exercise 5
+
+This exercise will be divided into 3 parts: UI side (part 1), processing the input on the server side (part 2), and finally rendering an interactive a plt (part 3)
+
+Rest assured, you'll find some starter code in a separate script called ```day4_app.R```!
+
+## Part 1: UI side
+
+Our UI should consist of a ```fluidPage``` with:
+* A title
+* A sidebar layout with two panels:
+  * A sidebar panel where a user can select a country from ```unique_countries``` (e.g., like a drop-down menu)
+  * A main panel containing a ```plotlyOutput```
+
+<p class="hint">
+  Title: ```titlePanel``` <br>
+  Side bar layout: ```sidebarLayout``` <br>
+  Side bar panel: ```sidebarPanel``` <br>
+  Drop-down menu: ```selectInput``` <br>
+  main panel: ```mainPanel``` <br>
+</p>
+
+```{r, ex2.1, message = FALSE, warning = FALSE}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```
+
+## Part 2: Server side - processing inputs
+
+Our server should first incorporate the input country by filtering ```df``` such that only the rows from that country are retained.
+
+We are also interested in getting the mean PfPR and its SD (in an object called ```sub_df_pfpr_stats```), grouped by year (like in day1).
+
+To check your code, replace ```plot_empty``` by:
+```{r ex2.2 helper, eval = FALSE, echo = TRUE}
+first_year <- # CODE HERE
+
+  first_year_mean_pfpr <- # CODE HERE
+
+  validate(
+    need(
+      FALSE,
+      paste0(
+        country(),
+        ". First sample obtained in ",
+        first_year,
+        ". Mean PfPr: ",
+        first_year_mean_pfpr
+      )
+    )
+  )
+```
+
+When running the app, you should get the following for Angola:
+
+*Angola. First sample obtained in 2005. Mean PfPr: 0.669089607*
+
+<p class="hint">
+  Remember to make everything that is susceptible to change (such as the country and country data) as ```reactive```! <br>
+</p>
+
+```{r, ex2.2, message = FALSE, warning = FALSE}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```
+
+## Part 3: Server side - visualization
+
+Our UI is ready, our data processing is ready, now onto the plots!
+
+Replace the validate snippet by a ```subplot``` from the ```plotly``` library, incorporating the 4 panels (over 2 rows) from Day 1/Exercise 5.
+
+<p class="hint">
+  Remember that the data is ```reactive``` <br>
+  Use ggplotly to make the plots interactive <br>
+  Use ```titleX = TRUE``` and ```titleY = TRUE``` for <br>
+</p>
+
+```{r, ex2.3, message = FALSE, warning = FALSE}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```

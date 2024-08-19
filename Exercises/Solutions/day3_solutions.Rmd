@@ -1,5 +1,5 @@
 ---
-title: 'Exercises: Dimensionality reduction'
+title: "Day 3: dimensionality reduction"
 output: html_document
 ---
 
