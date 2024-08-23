@@ -77,8 +77,10 @@ pkg/
 test/dest
 tmp/*
 
-# html (temporary)
-*.html
+# html in Exercises
+data/maps/*.html
+Exercises/*.html
+Exercises/*/*.html
 
 # temporary image files
 day*_solutions_files/

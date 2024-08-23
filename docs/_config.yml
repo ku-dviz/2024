@@ -12,6 +12,7 @@ schoolurl: "https://ifsv.ku.dk/"
 # twitter_username: username
 
 address: |
+    Department of Public Health
     Faculty of Health and Medical Sciences
     Copenhagen
     Denmark
@@ -45,6 +46,8 @@ collections:
         output: true
     announcements:
         output: false
+    exercises:
+        output: true
 
 
 # defaults:

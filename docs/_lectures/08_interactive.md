@@ -17,3 +17,7 @@ thumbnail: /static_files/presentations/lec.jpg
 
 * [Day 4 exercises](https://github.com/ku-dviz/2024/blob/main/Exercises/day4.Rmd)
 * [Day 4 solutions](https://github.com/ku-dviz/2024/blob/main/Exercises/Solutions/day4_solutions.Rmd)
+
+**Feedback form:**
+
+* [Form](https://forms.gle/yGsQhpCTsSFqp1149)

@@ -8,7 +8,7 @@ Teachers: Kaustubh Chakradeo, Jacob Curran-Sebastian, Neil Scheidwasser, Samir B
 
 ### Setting up your DViz directory
 
-It is recommended to download or clone the repo in a new directory:
+It is recommended to download or clone the repo in a new directory.
 
 For git users, use:
 
@@ -24,7 +24,7 @@ Otherwise, download the repo as a .zip [here](https://github.com/ku-dviz/2024/ar
   * Windows: <https://cran.r-project.org/bin/windows/base/R-4.4.0-win.exe>
   * Mac (arm64; M1/M2 Macs): <https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.4.0-arm64.pkg>
   * Mac (x86): <https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.4.0-x86_64.pkg>
-  * Linux (Ubuntu): follow the instrcctions at <https://cran.r-project.org/bin/linux/ubuntu/>
+  * Linux (Ubuntu): follow the instructions at <https://cran.r-project.org/bin/linux/ubuntu/>
 * Follow the steps after running the executable file to install
 * Check: open a terminal (in Windows, Command Prompt) and type ```R``` --> it should open an R console
 
@@ -75,7 +75,7 @@ install.packages(
     "daggity", # DAGs
     "ggdag", # Extension of daggity for ggplot2
     "igraph", # Network analysis
-    "ggraph", ## Networks in ggplot2
+    "ggraph", # Networks in ggplot2
     "tidygraph", # Networks in the tidyverse
   )
 )
