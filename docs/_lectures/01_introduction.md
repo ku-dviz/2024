@@ -5,8 +5,8 @@ title: Introduction
 tldr: "Introduction and basic plots."
 thumbnail: /static_files/presentations/lec.jpg
 links:
-#     - url: https://google.com
-#       name: slides
+    - url: https://github.com/ku-dviz/2024/raw/main/slides/Day1_Intro.pptx
+      name: slides
 ---
 
 **Exercises**:

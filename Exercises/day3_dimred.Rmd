@@ -1,0 +1,107 @@
+---
+title: "Day 3: Dimensionality reduction"
+output: html_document
+css: styles.css
+---
+
+```{r setup, include=FALSE}
+# This chunk of code sets up how the output should be displayed
+# feel free to ignore this!
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+source("../config.R")
+```
+
+```{r prelim}
+library(corrplot)
+library(gridExtra)
+library(dplyr)
+library(ggplot2)
+library(uwot)
+
+# Our malaria dataset
+df <- read.csv("../data/Malaria_Dataset_DataViz.csv")
+
+df$mtsi <- df$mosquito_temperature_suitability_index / 1000
+
+cols_of_interest <- c(
+  "itnuse0", "itnuse1", "itnuse2", "itnuse3",
+  "act", "irs", "tasseled_cap_wetness", "mtsi",
+  "precipitation", "enhanced_vegetation_index", "elevation", "nighttime_lights",
+  "accessibility_tocity"
+)
+
+countries <- c("Sudan", "Zambia", "Nigeria")
+
+set.seed(42)
+```
+
+# Exercise 1: correlation matrix
+
+We have selected for you 13 columns of interest, and 3 different African countries from an economic, geographic, and demographic perspective: Sudan, Zambia, and Nigeria.
+
+Make a correlation matrix using the features of interest then plot it.
+
+<p class="hint">
+  Correlation matrix: ```cor``` from the ```stats``` package <br>
+  Correlation matrix plot: ```corrplot``` from the ```corrplot``` package
+</p>
+
+```{r ex1}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```
+
+# Exercise 2: PCA
+
+1. Run a PCA on the subset of interest. Do not forget to scale and center the data!
+2. Run a scree plot. How many components are worth retaining?
+
+<p class="hint">
+  PCA: ```prcomp``` from the ```stats``` package <br>
+  Scree plot: ```screeplot``` from the ```stats``` package
+</p>
+
+```{r ex2}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```
+
+# Exercise 3: more PCA
+
+Run a biplot to represent the information contained in the first two components.
+
+1. Observe the arrows: what do the principle components capture?
+2. Colour the biplot points by country: do the surveys cluster well by country? do the clusters make sense?
+3. Colour the biplot points by PfPr:
+
+<p class="hint">
+  Biplot: ```biplot``` from the ```stats``` package or ```ggbiplot``` from the ```ggbiplot``` package <br>
+</p>
+
+```{r ex3}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```
+
+# Exercise 4: UMAP
+
+Let's now turn to UMAP.
+
+Perform 4 UMAP plots with 4 different values for ```n_neighbors```: 2, 20, 200, 2000 (it should take ~ 5 min).
+
+What do you notice? How do these visualisations compare to your PCA plot?
+
+
+<p class="hint">
+  UMAP: ```umap``` (uwot) with ```fast_sgd = TRUE```
+</p>
+
+```{r ex4}
+# ////////////////////////////////////////////////////////////
+#                      YOUR CODE HERE
+# ////////////////////////////////////////////////////////////
+```

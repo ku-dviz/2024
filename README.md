@@ -6,6 +6,18 @@ Teachers: Kaustubh Chakradeo, Jacob Curran-Sebastian, Neil Scheidwasser, Samir B
 
 ## Setup
 
+### Setting up your DViz directory
+
+It is recommended to download or clone the repo in a new directory:
+
+For git users, use:
+
+```bash
+git clone https://github.com/ku-dviz/2024.git
+```
+
+Otherwise, download the repo as a .zip [here](https://github.com/ku-dviz/2024/archive/refs/heads/main.zip) and de-compress it.
+
 ### Install R
 
 * Download:
@@ -60,6 +72,11 @@ install.packages(
     "tmap", # (Interactive) thematic maps
     "corrplot", # Correlation matrix plots
     "uwot", # UMAP dimensionality reduction
+    "daggity", # DAGs
+    "ggdag", # Extension of daggity for ggplot2
+    "igraph", # Network analysis
+    "ggraph", ## Networks in ggplot2
+    "tidygraph", # Networks in the tidyverse
   )
 )
 ```
