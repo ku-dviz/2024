@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Exercise solutions
-permalink: /exercises/
+permalink: /solutions/
 ---
 
 ## Solutions

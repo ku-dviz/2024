@@ -23,6 +23,6 @@ items:
   name: Materials
   icon_class: fas fa-book
 
-- url: /exercises/
+- url: /solutions/
   name: Exercise solutions
   icon_class: fas fa-user-graduate
