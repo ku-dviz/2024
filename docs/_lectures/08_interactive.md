@@ -12,6 +12,8 @@ thumbnail: /static_files/presentations/lec.jpg
 #     - url: https://google.com
 #       name: slides
 ---
-**Materials:**
 
-- TBD
+**Exercises:**
+
+* [Day 4 exercises](https://github.com/ku-dviz/2024/blob/main/Exercises/day4.Rmd)
+* [Day 4 solutions](https://github.com/ku-dviz/2024/blob/main/Exercises/Solutions/day4_solutions.Rmd)
