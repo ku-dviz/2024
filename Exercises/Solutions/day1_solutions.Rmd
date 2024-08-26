@@ -265,7 +265,8 @@ fig1 <- ggplot(mocd, aes(x = year, fill = method)) +
   labs(
     x = "Year",
     y = "# Surveys"
-  )
+  ) +
+  theme(legend.position = "top")
 
 fig2 <- ggplot(data = mocd_pfpr_stats) +
   # Scatter plot
