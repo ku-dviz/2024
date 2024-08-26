@@ -4,6 +4,12 @@ output: html_document
 css: styles.css
 ---
 
+# Setup
+
+⚠️ It is recommended to create a separate folder for the course and keep the same folder architecture as in the GitHub repo. There are two easy ways to do that:
+* If you are familiar with ```git```, simply do ```git clone https://github.com/ku-dviz/2024.git```.
+* Otherwise, download a .zip bundle of the repository [here](https://github.com/ku-dviz/2024/archive/refs/heads/main.zip), and decompress the file wherever you would like.
+
 ```{r setup, include=FALSE}
 # This chunk of code sets up how the output should be displayed
 # feel free to ignore this!
