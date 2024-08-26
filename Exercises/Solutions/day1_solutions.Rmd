@@ -188,12 +188,14 @@ fig <- ggplot(df, aes(mtsi)) +
 # Exercise 4: Bivariate plots
 
 Plot a simple scatter plot showing the following:
+
 * x-axis: precipitation
 * y-axis: vegetation index
 
 Assign the plot to the variable ```fig1```
 
 Augment ```fig1``` with:
+
 * A linear regression model fit, coloured in dark red
 * A title: "R^2 = xxx" where xxx is the value of R^2 from the linear regression model
 * Better labels for the x- and y-axes.
@@ -235,7 +237,8 @@ grid.arrange(fig1, fig2, ncol = 2L)
 
 Find the country with the most observations in this dataset.
 
-Plot 4 subplots (in a 2 x 2 grid) showing the following:
+For this country, plot 4 subplots (in a 2 x 2 grid) showing the following:
+
 1. The number of surveys done over the years, grouped by surved method
 2. The average *Plasmodium falciparum* parasite rate (PfPr), plotted against the year (mean +/- standard deviation)
 3. The distribution of PfPr depending on the area type (rural vs. urban)

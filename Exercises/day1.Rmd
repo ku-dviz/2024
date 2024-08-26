@@ -7,6 +7,7 @@ css: styles.css
 # Setup
 
 ⚠️ It is recommended to create a separate folder for the course and keep the same folder architecture as in the GitHub repo. There are two easy ways to do that:
+
 * If you are familiar with ```git```, simply do ```git clone https://github.com/ku-dviz/2024.git```.
 * Otherwise, download a .zip bundle of the repository [here](https://github.com/ku-dviz/2024/archive/refs/heads/main.zip), and decompress the file wherever you would like.
 
@@ -110,12 +111,14 @@ Incorporate the following elements:
 # Exercise 4: Bivariate plots
 
 Plot a simple scatter plot showing the following:
+
 * x-axis: precipitation
 * y-axis: vegetation index
 
 Assign the plot to the variable ```fig1```
 
 Augment ```fig1``` with:
+
 * A linear regression model fit, coloured in dark red
 * A title: "R^2 = xxx" where xxx is the value of R^2 from the linear regression model
 * Better labels for the x- and y-axes.
@@ -137,7 +140,8 @@ Trend lines: ```geom_smooth``` (ggplot2)
 
 Find the country with the most observations in this dataset.
 
-Plot 4 subplots (in a 2 x 2 grid) showing the following:
+For this country, plot 4 subplots (in a 2 x 2 grid) showing the following:
+
 1. The number of surveys done over the years, grouped by surved method
 2. The average *Plasmodium falciparum* parasite rate (PfPr), plotted against the year (mean +/- standard deviation)
 3. The distribution of PfPr depending on the area type (rural vs. urban)
