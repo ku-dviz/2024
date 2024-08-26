@@ -11,6 +11,7 @@ links:
 
 **Exercises:**
 
-* [Refresher](https://github.com/ku-dviz/2024/blob/main/Exercises/day1.Rmd)
+* [R Refresher](https://github.com/ku-dviz/2024/blob/main/Exercises/day0.Rmd)
+* [R Refresher solutions](https://github.com/ku-dviz/2024/blob/main/Exercises/day0_solutions.Rmd)
 * [Day 1 exercises](https://github.com/ku-dviz/2024/blob/main/Exercises/day1.Rmd)
 * [Day 1 solutions](https://github.com/ku-dviz/2024/blob/main/Exercises/Solutions/day1_solutions.Rmd)
