@@ -127,14 +127,14 @@ Something should feel off regarding the column ```mosquito_temperature_suitabili
 
 Let's plot a histogram to check the distribution. Use both ```hist``` and ```geom_histogram```.
 
-What could have happened? Fix the data from ```mosquito_temperature_suitability_index``` in a new column called ```mtsi``` such that the summary looks like this:
+Fix the data from ```mosquito_temperature_suitability_index``` in a new column called ```mtsi``` such that the summary looks like this:
 
 ```
   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   0.00   43.67   59.51   58.59   77.14   94.04
 ```
 
-**Solution: the temperature was accidentally multiplied by 1000 (or displayed in millicelsius), so simply divide by 1000 to obtain the mtsi column.**
+**Solution: the temperature was accidentally multiplied by 1000 (normal range should be 0-100 according to the metadata), so simply divide by 1000 to obtain the mtsi column.**
 
 ```{r, ex2, message = FALSE, warning = FALSE, fig.height = 4, fig.width = 8}
 # base R histogram
