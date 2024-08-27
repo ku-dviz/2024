@@ -73,6 +73,7 @@ Drawing country outlines: ```geom_sf``` (ggplot2)
 # Exercise 2: Kenya plot a Kenya map?
 
 Plot a high-definition map of Kenya supplemented with information on:
+
  * Scale
  * Orientation (North/South)
  * Coordinates (longitude/latitude)
@@ -93,6 +94,7 @@ Adding coordinates: Simply label the axes 😀
 # Exercise 3: Kenya add more details?
 
 Augment your Kenya plot by adding:
+
  * a point for 3 major cities: Nairobi, the capital, as well as Mombasa and Nakuru.
  * lakes, rivers, and potential surrounding oceans
 
