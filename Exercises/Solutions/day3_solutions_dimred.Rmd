@@ -8,7 +8,7 @@ output: html_document
 # feel free to ignore this!
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
-source("../../config.R")
+source("../config.R")
 ```
 
 ```{r prelim}
