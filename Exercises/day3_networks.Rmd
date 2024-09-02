@@ -46,7 +46,7 @@ edges <- read.table("school_edgelist_copy.txt")
 edges <- edges[, 1:2] %>% distinct(V1, V2)
 
 # Fix node ordering
-school_graph <- graph_from_edgelist(as.matrix(edges))
+school_graph <- graph_from_edgelist(as.matrix(edges) + 1)
 reorder <- match(nodes$ID, V(school_graph))
 nodes <- arrange(nodes, reorder)
 

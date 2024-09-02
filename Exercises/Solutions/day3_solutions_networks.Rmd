@@ -39,14 +39,14 @@ library(igraph)
 library(tidygraph)
 
 # Read in network data
-nodes <- read.csv("school_nodelist.csv")
-edges <- read.table("school_edgelist_copy.txt")
+nodes <- read.csv("../../data/school_nodelist.csv")
+edges <- read.table("../../data/school_edgelist.txt")
 
 # Drop repeated edges
 edges <- edges[, 1:2] %>% distinct(V1, V2)
 
 # Fix node ordering
-school_graph <- graph_from_edgelist(as.matrix(edges))
+school_graph <- graph_from_edgelist(as.matrix(edges) + 1)
 reorder <- match(nodes$ID, V(school_graph))
 nodes <- arrange(nodes, reorder)
 
