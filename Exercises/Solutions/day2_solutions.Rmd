@@ -82,8 +82,6 @@ Plot a high-definition map of Kenya supplemented with information on:
  * Orientation (North/South)
  * Coordinates (longitude/latitude)
 
-**Hint:** use ```ggspatial```
-
 ```{r, ex2, message = FALSE, warning = FALSE}
 # Use rnaturalearth to get the country polygon for Kenya
 kenya <- ne_countries(
