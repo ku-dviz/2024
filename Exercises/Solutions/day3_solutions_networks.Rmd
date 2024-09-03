@@ -1,7 +1,7 @@
 ---
 title: "Day 3: Networks"
 output: html_document
-css: styles.css
+css: ../styles.css
 ---
 
 ```{r setup, include=FALSE}
