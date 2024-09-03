@@ -12,3 +12,4 @@ You can visualise the exercise solutions in HTML format here.
 {% include_relative /static_files/html_solutions/day2_solutions.html %}
 {% include_relative /static_files/html_solutions/day3_solutions_dimred.html %}
 {% include_relative /static_files/html_solutions/day3_solutions_networks.html %}
+{% include_relative /static_files/html_solutions/day4_solutions.html %}

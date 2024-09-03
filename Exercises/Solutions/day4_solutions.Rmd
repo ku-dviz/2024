@@ -87,7 +87,9 @@ Our UI should consist of a ```fluidPage``` with:
   main panel: ```mainPanel``` <br>
 </p>
 
-```{r, ex2.1, message = FALSE, warning = FALSE}
+```{r, ex2.1, message = FALSE, warning = FALSE, eval = FALSE}
+unique_countries <- sort(unique(df$country))
+
 ui <- fluidPage(
 
   # Give the page a title
@@ -117,7 +119,7 @@ Our server should first incorporate the input country by filtering ```df``` such
 
 We are also interested in getting the mean PfPR and its SD (in an object called ```sub_df_pfpr_stats```), grouped by year (like in day1).
 
-To check your code, replace ```plot_empty``` by:
+To check your code, replace ```plotly_empty``` by:
 ```{r ex2.2 helper, eval = FALSE, echo = TRUE}
 first_year <- # CODE HERE
 
